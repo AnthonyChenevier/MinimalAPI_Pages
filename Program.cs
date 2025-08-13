@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using Supabase;
 
 namespace MinimalAPI_Pages;
@@ -6,7 +7,7 @@ internal class Program
 {
     public static void Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
+        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
         bool useSwagger = builder.Configuration.GetValue<bool>("UseSwagger");
 
@@ -21,18 +22,20 @@ internal class Program
     {
         // Add services to the container.
         builder.Services.AddRazorPages();
-
-        if (useSwagger)
-        {
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-        }
-
+        builder.Services.AddControllers();
+        builder.Services.AddControllers().AddNewtonsoftJson(options => { options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; });
         ConfigureSupabase(builder.Services, builder.Configuration);
+
+        if (!useSwagger)
+            return;
+
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
     }
 
     private static void ConfigureSupabase(IServiceCollection services, IConfiguration config)
     {
+        services.AddScoped<Controllers.ItemsController>();
         services.AddScoped(_ =>
         {
             string? url = config.GetValue<string>("Supabase:Url");
@@ -74,6 +77,8 @@ internal class Program
         app.UseRouting();
 
         app.UseAuthorization();
+
+        app.MapControllers();
 
         app.MapStaticAssets();
 

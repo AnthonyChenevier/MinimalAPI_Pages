@@ -11,6 +11,14 @@ namespace MinimalAPI_Pages.Requests
         public float Price { get; set; }
         public long SupplierID { get; set; }
 
+
+        public ItemRequest()
+        {
+            Description = "none";
+            Price = 0;
+            SupplierID = 0;
+        }
+
         /// <summary>
         /// Constructor to turn an ItemModel into an ItemRequest
         /// </summary>

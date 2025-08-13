@@ -1,10 +1,82 @@
 ﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
+@using MinimalAPI_Pages.Models
+@model MinimalAPI_Pages.Pages.ItemsCrudPageModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>Items CRUD</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Create</h2>
+            <form method="post" asp-page-handler="Create">
+                <div class="mb-3">
+                    <label for="newItemDesc" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="newItemDesc" asp-for="NewItem.Description" required>
+                </div>
+                <div class="mb-3">
+	                <label for="newItemPrice" class="form-label">Price</label>
+	                <input type="number" class="form-control" id="newItemPrice" asp-for="NewItem.Price" required>
+                </div>
+                <div class="mb-3">
+	                <label for="newItemSupplierID" class="form-label">Supplier ID</label>
+	                <input type="number" class="form-control" id="newItemSupplierID" asp-for="NewItem.SupplierID" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+        <div class="col">
+            <h2>Read</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Supplier ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ItemModel item in Model.Items)
+                    {
+                        <tr>
+	                        <td>@item.ItemID</td>
+	                        <td>@item.Description</td>
+                            <td>@item.Price</td>
+                            <td>@item.SupplierID</td>
+                            <td>
+                                <a href="#" class="btn btn-primary btn-sm" asp-page-handler="Edit" asp-route-id="@item.ItemID">Edit</a>
+                                <a href="#" class="btn btn-danger btn-sm" asp-page-handler="Delete" asp-route-id="@item.ItemID">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h2>Update</h2>
+            <form method="post" asp-page-handler="Update">
+                <div class="mb-3">
+                    <label for="editItemId" class="form-label">ID</label>
+                    <input type="number" class="form-control" id="editItemId" asp-for="EditItem.ItemID" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="editItemDesc" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="editItemDesc" asp-for="EditItem.Description" required>
+                </div>
+                <div class="mb-3">
+	                <label for="editItemPrice" class="form-label">Price</label>
+	                <input type="number" class="form-control" id="editItemPrice" asp-for="EditItem.Price" required>
+                </div>
+                <div class="mb-3">
+	                <label for="editItemSupplierID" class="form-label">Supplier ID</label>
+	                <input type="number" class="form-control" id="editItemSupplierID" asp-for="EditItem.SupplierID" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
 </div>

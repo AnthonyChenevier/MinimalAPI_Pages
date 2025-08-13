@@ -1,5 +1,4 @@
 ﻿using MinimalAPI_Pages.Requests;
-using Supabase.Postgrest.Attributes;
 using Supabase.Postgrest.Models;
 
 namespace MinimalAPI_Pages.Models
@@ -7,7 +6,7 @@ namespace MinimalAPI_Pages.Models
     [Supabase.Postgrest.Attributes.Table("items")]
     public class ItemModel : BaseModel
     {
-        [PrimaryKey("item_id")]
+        [Supabase.Postgrest.Attributes.PrimaryKey("item_id")]
         public long ItemID { get; init; }
 
         [Supabase.Postgrest.Attributes.Column("description")]

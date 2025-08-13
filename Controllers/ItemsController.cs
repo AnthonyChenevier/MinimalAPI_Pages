@@ -11,8 +11,8 @@ namespace MinimalAPI_Pages.Controllers;
 public class ItemsController : ControllerBase
 {
     // READ
-    [HttpGet("{id}")]
-    public async Task<IActionResult> OnGetAsync(int id, [FromServices] Client client)
+    [HttpGet("{id:long}")]
+    public async Task<IActionResult> OnGetAsync(long id, [FromServices] Client client)
     {
         ModeledResponse<ItemModel> response = await client.From<ItemModel>().Where(i => i.ItemID == id).Get();
 
@@ -38,8 +38,8 @@ public class ItemsController : ControllerBase
     }
 
     // UPDATE
-    [HttpPut("{id}")]
-    public async Task<IActionResult> OnPutAsync(long id, [FromBody] ItemRequest request, [FromServices] Client client)
+    [HttpPut("{id:long}")]
+    public async Task<IActionResult> OnPutAsync(long id, [FromBody] ItemRequest request, [FromServices] Client? client)
     {
         ItemModel item = new ItemModel(id, request);
 
